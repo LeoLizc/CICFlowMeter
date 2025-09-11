@@ -19,7 +19,7 @@ import java.util.List;
 public class TrafficFlowWorker extends SwingWorker<String,String> implements FlowGenListener{
 
 	public static final Logger logger = LoggerFactory.getLogger(TrafficFlowWorker.class);
-    public static final String PROPERTY_FLOW = "flow";
+    public static final String PROPERTY_FLOW = "flow", PROPERTY_EVALUATION = "flowEvaluation";
 	private String device;
 	private boolean stopped;
 	private String notifyUrl;
@@ -168,13 +168,8 @@ public class TrafficFlowWorker extends SwingWorker<String,String> implements Flo
 					}
 				}
 
-//				SHOWING A DIALOG
-				JOptionPane.showMessageDialog(
-					null,
-					"Flow evaluation result indicates potential threat: " + result,
-					"Threat Detected",
-					JOptionPane.WARNING_MESSAGE
-				);
+				firePropertyChange(PROPERTY_EVALUATION, null, result);
+
 				this.stopped = false;
 			} else {
 				logger.info("Flow evaluation result is benign");

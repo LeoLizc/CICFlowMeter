@@ -41,6 +41,7 @@ public class FlowMonitorPane extends JPanel {
     private JLabel lblStatus;
     private JLabel lblFlowCnt;
     private int lblCount;
+    private boolean showingPane;
 
     private JTextField urlInputField;
 
@@ -69,6 +70,8 @@ public class FlowMonitorPane extends JPanel {
 
     private void init() {
         csvWriterThread = Executors.newSingleThreadExecutor();
+
+        showingPane = false;
     }
 
     public void destory() {
@@ -113,7 +116,7 @@ public class FlowMonitorPane extends JPanel {
         // Center the panel vertically in the container
         JPanel centeringPanel = new JPanel(new GridBagLayout());
 
-        JLabel urlLabel = new JLabel("Ruta de notificaci\u00F3n:");
+        JLabel urlLabel = new JLabel("Notification Route:");
         urlLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         urlInputField = new JTextField();
@@ -310,6 +313,15 @@ public class FlowMonitorPane extends JPanel {
                 lblStatus.validate();
             } else if (TrafficFlowWorker.PROPERTY_FLOW.equalsIgnoreCase(event.getPropertyName())) {
                 insertFlow((BasicFlow) event.getNewValue());
+            } else if(TrafficFlowWorker.PROPERTY_EVALUATION.equalsIgnoreCase(event.getPropertyName()) && !showingPane) {
+                String result = (String) event.getNewValue();
+                //				SHOWING A DIALOG
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Flow evaluation result indicates potential threat: " + result,
+                        "Threat Detected",
+                        JOptionPane.WARNING_MESSAGE
+                );
             } else if ("state".equals(event.getPropertyName())) {
                 switch (task.getState()) {
                     case STARTED:
