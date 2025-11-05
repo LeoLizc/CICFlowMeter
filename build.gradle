@@ -3,8 +3,8 @@ apply plugin: 'maven'
 apply plugin: 'application'
 
 group = 'cic.unb.ca'
-version = '4.0'
-description = """CICFlowMeterV4"""
+version = '4.0-Detector'
+description = """CICFlowMeterV4Detector"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
