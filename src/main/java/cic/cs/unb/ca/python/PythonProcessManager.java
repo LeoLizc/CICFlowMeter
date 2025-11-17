@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PythonProcessManager {
     private static final Logger logger = LoggerFactory.getLogger(PythonProcessManager.class);
     private static PythonProcessManager instance;
+    private static String PYTHON_CODE_PATH = "src/ddos-models/main.py";
 
     private Process process;
     private BufferedWriter writer;
@@ -56,8 +57,7 @@ public class PythonProcessManager {
     private String getPythonExecutablePath() throws IOException {
         String os = System.getProperty("os.name").toLowerCase();
         Path venvPath = Paths.get("src").toAbsolutePath()
-            .resolve("main")
-            .resolve("frida-ddos-models")
+            .resolve("ddos-models")
             .resolve(".venv");
 
         Path pythonPath;
@@ -81,7 +81,7 @@ public class PythonProcessManager {
         try {
             // Obtener ruta absoluta del script Python
             Path projectDir = Paths.get(System.getProperty("user.dir"));
-            Path pythonScript = projectDir.resolve("src/main/frida-ddos-models/main.py");
+            Path pythonScript = projectDir.resolve(PYTHON_CODE_PATH);
             String pythonPath = getPythonExecutablePath();
 
             // Verificar que el archivo existe
